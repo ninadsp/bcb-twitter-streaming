@@ -10,9 +10,7 @@
 		"host" : "foo.bar",
 		"port" : "80",
 		"path" : "/path/to/schedule.json",
-		"time_slots" : [
-			// Array of time slots in ISO-8601
-		]
+		"time_slots" : []
 	},
 	"updates" : {}
 }

@@ -1,0 +1,7 @@
+{
+	"consumer_key": "Enter",
+	"consumer_secret": "your" ,
+	"access_token_key": "secrets" ,
+	"access_token_secret": "here",
+	"track": "nodejs,bangalore,delhi,mumbai"
+}

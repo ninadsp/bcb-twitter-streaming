@@ -1,7 +1,18 @@
 {
-	"consumer_key": "Enter",
-	"consumer_secret": "your" ,
-	"access_token_key": "secrets" ,
-	"access_token_secret": "here",
-	"track": "nodejs,bangalore,delhi,mumbai"
+	"twitter" : {
+		"consumer_key": "Enter",
+		"consumer_secret": "your" ,
+		"access_token_key": "secrets" ,
+		"access_token_secret": "here",
+		"track": "nodejs,bangalore,delhi,mumbai"
+	},
+	"schedule" : {
+		"host" : "foo.bar",
+		"port" : "80",
+		"path" : "/path/to/schedule.json",
+		"time_slots" : [
+			// Array of time slots in ISO-8601
+		]
+	},
+	"updates" : {}
 }

@@ -5,6 +5,7 @@
 	"dependencies": {
 		"express": "3.x",
 		"socket.io": "0.9.x",
-		"ntwitter": "0.5.0"
+		"ntwitter": "0.5.0",
+		"moment": "2.0.0"
 	}
 }

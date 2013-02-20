@@ -4,6 +4,8 @@
 
 var express = require('express'),
 	app = module.exports = express(),
+	http = require('http'),
+	server = http.createServer(app),
 	fs = require('fs');
 
 app.configure(function() {
@@ -30,7 +32,7 @@ var config = function() {
 		json = JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
 	}
 	catch(e) {
-		console.log("Error while reading config.json: " + e);
+		console.log("** Error while reading config.json: " + e);
 	}
 
 	if(typeof(json.twitter) !== undefined) {
@@ -111,8 +113,8 @@ app.get('/', function(req, res) {
 	res.sendfile(__dirname + '/public/wall.html');
 })
 
-app.listen(8080);
-console.log('Server listening');
+server.listen(8080);
+console.log(' | Server listening');
 /**
 * Twitter functions
 *
@@ -122,7 +124,7 @@ console.log('Server listening');
 */
 
 var twitter = require('ntwitter'), 
-twitter_stream = '';
+	twitter_stream = '';
 
 var t = new twitter({
 	consumer_key: config.twitter.consumer_key,
@@ -133,20 +135,34 @@ var t = new twitter({
 
 function connectStream(){
 
-	twitter_stream = t.stream('statuses/filter', {track: config.twitter.track}, function(stream) {
+	t.stream('statuses/filter', {track: config.twitter.track}, function(stream) {
 
-		console.log('* Stream start');
+		twitter_stream = stream;
+
+		console.log(' | Stream start');
 
 		stream.on('data', function(data){
-			console.log(data);
+			json = strencode(data);
+
+			if(json.length > 0) {
+				try {
+					updates.emit('tweet', json);
+				}
+				catch(e) {
+					console.log("** Error sending Tweet: " + e);
+					console.log("** Tweet: " + json);
+				}
+			}
 		});
 
 		stream.on('end', function(data) {
-			console.log('* Stream end');
+			twitter_stream = '';
+			console.log(' | Stream end');
 		});
 
 		stream.on('error', function(error) {
-			console.log('error' + error);
+			twitter_stream = '';
+			console.log('** Error in Twitter Stream: ' + error);
 		});
 	});
 	
@@ -172,3 +188,47 @@ function connectStream(){
 * set up updates+twitter socket, populate initial updates
 * set up schedule socket, populate initial schedule
 */
+var	io = require('socket.io').listen(server),
+ 	totWallUsers = 0,
+ 	totScheduleUsers = 0;
+	
+io.configure(function() { 
+	io.enable('browser client minification');
+	io.set('log level', 1); 
+	io.set('transports', [ 
+			'websocket',
+		//	'flashsocket',
+			'htmlfile',
+			'xhr-polling',
+			'jsonp-polling'
+	]);
+}); 
+
+var updates = io.of('/updates').on('connection', function(client) {
+	totWallUsers++;
+
+	if ((totWallUsers > 0) && (twitter_stream == '')) {
+		connectStream();
+	}
+
+	// setCurrentSession();
+	try {
+		var updJSON = JSON.parse(fs.readFileSync(__dirname +'/updates.json', 'utf8'));
+		client.json.emit('init_updates', { ata : updJSON } );
+	}
+	catch(e) {
+		console.log("** Error Initializing Updates: " + e);
+	}
+
+	client.on('disconnect', function() {
+		totWallUsers--;
+		console.log(' | User '+ client.id +' disconnected, total users: '+ totWallUsers);
+
+		if (totWallUsers == 0) {
+			console.log(' | 0 Users, disconnecting Twitter stream');
+			twitter_stream.destroy();
+			twitter_stream = '';
+		}
+
+	});
+});

@@ -12,5 +12,9 @@
 		"path" : "/path/to/schedule.json",
 		"time_slots" : []
 	},
-	"updates" : {}
+	"updates" : {},
+	"admin" : {
+		"user" : "",
+		"pass" : ""
+	}
 }

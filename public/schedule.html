@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Schedule</title>
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=yes" />
+		<script type="text/javascript" src="./js/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="./socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="./js/schedule.js"></script>
+		<link rel="stylesheet" href="./css/schedule.css" />
+	</head>
+	<body>
+		<div id="container" class="small">
+			<table id="schedule_table" cellpadding="0" cellspacing="0">
+				<tr class="head">
+					<td class="col_0">&nbsp;</td>
+					<td class="col">Asteroid</td>
+					<td class="col">Battlefield</td>
+					<td class="col">Contra</td>
+					<td class="col">Diablo</td>
+					<td class="col">Everquest</td>
+					<td class="col">Fable</td>
+				</tr>
+
+				<tr class="fixed_slot">
+					<td class="col_0">08:00-09:00</td>
+					<td class="col" colspan="6">Registration</td>
+				</tr>
+
+				<tr class="fixed_slot">
+					<td class="col_0">09:00-09:30</td>
+					<td class="col" colspan="6">Registration</td>
+				</tr>
+
+				<tr class="session_slot">
+					<td class="col_0">09:30-10:15</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+				</tr>
+
+				<tr class="session_slot">
+					<td class="col_0">10:30-11:15</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+				</tr>
+
+				<tr class="session_slot">
+					<td class="col_0">11:30-12:15</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+				</tr>
+
+				<tr class="fixed_slot">
+					<td class="col_0">12:30-1:30</td>
+					<td class="col" colspan="6">Lunch</td>
+				</tr>
+
+				<tr class="fixed_slot">
+					<td class="col_0">1:30-2:30</td>
+					<td class="col" colspan="6"><img id="teklash_logo" src="/images/teklash.png" alt="Techlash" /></td>
+				</tr>
+
+				<tr class="session_slot">
+					<td class="col_0">02:30-03:15</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+				</tr>
+
+				<tr class="session_slot">
+					<td class="col_0">03:30-04:15</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+				</tr>
+
+				<tr class="session_slot">
+					<td class="col_0">04:30-05:15</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+					<td class="col">&nbsp;</td>
+				</tr>
+
+				<tr class="fixed_slot">
+					<td class="col_0">05:30-06:15</td>
+					<td class="col" colspan="6">Feedback</td>
+				</tr>
+
+			</table>
+		</div>
+		<div id="qr_code">
+			<img src="/images/schedule.png" />
+		</div>
+	</body>
+</html>

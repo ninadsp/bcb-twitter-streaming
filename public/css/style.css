@@ -1,0 +1,195 @@
+body {
+    background-color: #3f3f3f;
+    background-image: url(/images/wood_pattern.jpg);
+    width: 1024px;
+    height: 768px;
+    margin: 0 auto;
+    color: #fff;
+    font-family: Dosis, sans-serif;
+    padding: 0px;
+}
+.step:not(.active) {
+    /*opacity: 0.4;*/
+    /*color: #aaa;*/
+}
+#start {
+    font-size: 30px;
+    color: white;
+}
+.step {
+    color: rgba(0,0,0,0.4);
+    width: 500px;
+    height: 120px;
+    font-size: 16px;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 9px;
+}
+.step.active {
+    color: white;
+    background-color: rgba(0,0,0,0.8);
+    opacity: 1.0;
+    transition: background 2s;
+    -webkit-transition: background 2s;
+    -moz-transition: background 2s;
+    -ms-transition: background 2s;
+    -o-transition: background 2s;
+}
+/*
+.step {
+    color: #3f3f3f;
+    width: 500px;
+    height: 120px;
+    font-size: 16px;
+    background-color: rgba(0,0,0,0.8);
+    border-radius: 9px;
+    opacity: 1;
+}
+.step:not(.active) {
+	opacity: 0;
+}
+*/
+
+#tweets_wrapper {
+    width: 760px;
+    height: 650px;
+    float: left;
+    overflow: hidden;
+}
+#updates_wrapper {
+    width: 264px;
+    height: 630px;
+    float: left;
+    overflow: hidden;
+    color: white;
+    margin: 10px 0px;
+    background-color: rgba(0,0,0,0.25);
+    border-radius: 9px;
+}
+
+#updates_wrapper ul {
+	list-style-type: none;
+	padding-left: 0px;
+}
+#updates_wrapper li {
+	margin: 0px 10px 12px 10px;
+	font-size: 20px;
+	padding: 12px;
+	border-radius: 10px;
+	background-color: rgba(0,0,0,0.5);
+}
+
+#updates_wrapper a {
+	color: white;
+	font-weight: bold;
+}
+
+#current_session_wrapper {
+	width: 1024px;
+	height: 118px;
+	background-color: rgba(0,0,0,0.6);
+	border-radius: 9px;
+}
+
+.clear {
+	clear: both;
+}
+
+#current_session_wrapper .large_text {
+	text-align: center;
+	font-size: 1.2em;
+	padding: 50px 150px;
+}
+
+.current_session_time {
+	width: 10%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.current_session {
+	width: 15%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.current_session_location {
+	font-weight: bold;
+}
+
+.current_session_title {
+}
+
+#start div {
+	padding: 30px 190px;
+	font-size: 40px;
+}
+
+.tweet {
+}
+
+.tweet_avatar_container {
+	width: 65px;
+	height: 120px;
+	display: inline-block;
+}
+
+.tweet_avatar {
+	height: 48px;
+	width: 48px;
+	padding: 36px 7px 36px 10px;
+	opacity: 0.1;
+}
+.active .tweet_avatar {
+	opacity: 1.0;
+}
+
+.tweet_content_container {
+	width: 405px;
+	padding: 0px 15px;
+	display: inline-block;
+	vertical-align: top;
+}
+.tweet_user {
+	margin-top: 3px;
+}
+.tweet_user_name {
+	font-size: 13px;
+    color: rgba(0,0,0,0.2);
+}
+.active .tweet_user_name {
+	color: #dfdfdf;
+}
+
+.tweet_user_handle {
+	font-size: 14px;
+	margin-left: 10px;
+    color: rgba(0,0,0,0.2);
+	font-weight: bold;
+}
+.active .tweet_user_handle {
+	color: white;
+}
+.tweet_content {
+	font-size: 17px;
+	padding-top: 3px;
+}
+
+.tweet_content a {
+    color: rgba(0,0,0,0.2);
+	font-weight: bold;
+}
+
+.active .tweet_content a {
+	color: white;
+	font-weight: bold;
+}
+.tweet_time {
+	font-size: 11px;
+	padding-top: 2px;
+}
+#qr_code img{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 70px;
+}

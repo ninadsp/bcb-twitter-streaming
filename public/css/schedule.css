@@ -1,0 +1,115 @@
+body {
+	background-color: #444;
+	background-image: -webkit-linear-gradient(top, #666, #222);
+	background-image: -moz-linear-gradient(top, #666, #222);
+	background-image: -o-linear-gradient(top, #666, #222);
+	color: #fff;
+	font-size: 16px;
+	font-family: Helvetica, Arial, sans-serif;
+	margin: 0px;
+	padding: 0px;
+}
+
+#container.small {
+	height: 768px;
+	width: 1024px;
+}
+#container.large {
+	height: 900px;
+	width: 1600px;
+}
+#container {
+	margin: 0 auto;
+}
+
+.large_message {
+	height: 100px;
+	width: 600px;
+	margin: 50px auto;
+	font-size: 18px;
+	text-align: center;
+}
+
+.large_message a {
+	color: white;
+	font-weight: bold;
+}
+
+#schedule_table {
+	width: 99%;
+	height: 99%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	font-size: 15px;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+.large #schedule_table {
+	font-size: 20px;
+}
+
+#container .head {
+	font-size: 1.2em;
+	height: 9%;
+	text-align: center;
+}
+
+#container .head .col_0 {
+	background-image: url(/images/logo.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: 0px, center;
+}
+#container td {
+	padding: 0px 5px 0px 4px;
+	border: 1px #dadada solid;
+}
+
+.col_0 {
+	width: 16%;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.col {
+	width: 14%;
+	text-overflow: clip;
+	overflow: hidden;
+}
+
+.fixed_slot {
+	height: 5%;
+}
+
+.session_slot {
+	height: 11%;
+}
+
+.fixed_slot .col {
+	text-align: center;
+}
+
+#container .current_slot td {
+	background: #888;
+}
+
+.next_slot {
+}
+
+.large #teklash_logo {
+	height: 40px;
+	width: auto;
+	padding: 1px;
+}
+
+.small #teklash_logo {
+	height: 30px;
+	width: auto;
+	padding: 1px;
+}
+#qr_code img{
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	height: 70px;
+}

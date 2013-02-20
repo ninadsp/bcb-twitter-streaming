@@ -23,7 +23,16 @@ $(document).ready(function() {
 				hash: {use: false}
 				});
 
+		
 	}
+
+	var tweet_template_source = $("#tweet_template").html(),
+		update_template_source = $("#update_template").html(),
+		session_template_source = $("#session_template").html();
+
+	var tweet_template = Handlebars.compile(tweet_template_source);
+	// var update_template = Handlebars.compile(update_template_source);
+	// var session_template = Handlebars.compile(session_template_source);
 
 	var interval = window.setInterval(function(){ 
 				var tweets_count = $(".tweet").length;
@@ -135,29 +144,28 @@ $(document).ready(function() {
 		// console.dir(tweet);
 		tweet = strdecode(tweet);
 
-		var date = new Date(tweet.created_at);
+		var tweet_context = {
+			x: Math.floor(Math.random() * 10000),
+			y: Math.floor(Math.random() * 10000),
+			z: Math.floor(Math.random() * 10000),
+			scale: Math.random(),
+			id_str: tweet.id_str,
+			profile_image: tweet.user.profile_image_url,
+			user_name: tweet.user.name,
+			user_screen_name: tweet.user.screen_name,
+			tweet_text: tweet.text,
+			tweet_time: moment(tweet.created_at).fromNow()
+		};
 
-		var newStep = $('<div class="step tweet">');
-		newStep.attr('id', "tweet_"+tweet.id_str);
+		if( (tweet.entities.media !== undefined )&& ( tweet.entities.media.length > 0 ) )  {
+			tweet_context.media = true;
+			tweet_context.media_url = tweet.entities.media[0].media_url + ':small';
+		}
+		
+		var tweet_html_to_insert = tweet_template(tweet_context);
 
-		var x = Math.floor(Math.random() * 10000), 
-		y = Math.floor(Math.random() * 10000),
-		z = Math.floor(Math.random() * 10000),
-		rot = Math.floor(Math.random() * 360),
-		scale = Math.random();
-		newStep.attr('data-x', x).attr('data-y', y).attr('data-z', z).attr('data-rotate', rot); //.attr('data-scale', scale);
-
-		var html_to_insert = '';
-		html_to_insert = '<div class="tweet_avatar_container"><img class="tweet_avatar" src="'+tweet.user.profile_image_url+'" /></div>';
-		html_to_insert += '<div class="tweet_content_container"><div class="tweet_user"><span class="tweet_user_name">'+tweet.user.name+'</span>';
-		html_to_insert += '<span class="tweet_user_handle">'+tweet.user.screen_name+'</span></div>';
-		html_to_insert += '<div class="tweet_content">'+convertURLs(tweet.text)+'</div>';
-		html_to_insert += '<div class="tweet_time">' + date.format("{FullYear}/{Month:2}/{Date:2} {Hours:2}:{Minutes:2}:{Seconds:2}") +'</div>';
-		html_to_insert += '</div>';
-
-		newStep.html(html_to_insert);
-		$("#tweets_container").append(newStep);
-		$("#tweets_wrapper").jmpress('init', newStep);
+		$("#tweets_container").append(tweet_html_to_insert);
+		$("#tweets_wrapper").jmpress('init', $("#tweet_"+tweet.id_str));
 	});
 
 	/**

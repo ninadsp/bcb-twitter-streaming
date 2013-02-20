@@ -34,6 +34,9 @@ body {
     -ms-transition: background 2s;
     -o-transition: background 2s;
 }
+.step.has_media {
+	height: 450px;
+}
 /*
 .step {
     color: #3f3f3f;
@@ -92,6 +95,7 @@ body {
 
 .clear {
 	clear: both;
+	height: 0px;
 }
 
 #current_session_wrapper .large_text {
@@ -130,13 +134,13 @@ body {
 .tweet_avatar_container {
 	width: 65px;
 	height: 120px;
-	display: inline-block;
+	float: left;
 }
 
 .tweet_avatar {
 	height: 48px;
 	width: 48px;
-	padding: 36px 7px 36px 10px;
+	padding: 36px 7px 36px 15px;
 	opacity: 0.1;
 }
 .active .tweet_avatar {
@@ -146,11 +150,11 @@ body {
 .tweet_content_container {
 	width: 405px;
 	padding: 0px 15px;
-	display: inline-block;
+	float: left;
 	vertical-align: top;
 }
 .tweet_user {
-	margin-top: 3px;
+	margin-top: 6px;
 }
 .tweet_user_name {
 	font-size: 13px;
@@ -185,8 +189,25 @@ body {
 }
 .tweet_time {
 	font-size: 11px;
-	padding-top: 2px;
+	padding-top: 5px;
 }
+
+.tweet_media {
+	width: 500px;
+	height:  300px;
+	overflow: hidden;
+	padding: 15px 0px;
+}
+.tweet_media img {
+	width: 340px;
+	margin: 0px 80px;
+	opacity: 0.1;
+}
+
+.step.active > .tweet_media img {
+	opacity: 1;
+}
+
 #qr_code img{
 	position: absolute;
 	top: 0px;

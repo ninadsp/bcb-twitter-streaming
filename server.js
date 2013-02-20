@@ -115,6 +115,7 @@ app.get('/', function(req, res) {
 
 server.listen(8080);
 console.log(' | Server listening');
+
 /**
 * Twitter functions
 *
@@ -158,11 +159,13 @@ function connectStream(){
 		stream.on('end', function(data) {
 			twitter_stream = '';
 			console.log(' | Stream end');
+			connectStream();
 		});
 
 		stream.on('error', function(error) {
 			twitter_stream = '';
 			console.log('** Error in Twitter Stream: ' + error);
+			connectStream();
 		});
 	});
 	
@@ -181,6 +184,41 @@ function connectStream(){
 *
 * handle post of an update
 */
+
+var moment = require('moment');
+
+function setCurrentSession() {
+	var now = moment();
+
+	var current_slot_index = 0;
+	while(now.isAfter(config.schedule.time_slots[current_slot_index], 'minute')) {
+		current_slot_index += 1;
+		if(current_slot_index >= 12) {
+			break;
+		}
+	}
+
+	var schJSON = JSON.parse(fs.readFileSync(__dirname +'/web.json', 'utf8'));
+
+	var output = {};
+
+	// we haven't yet started the day
+	if(current_slot_index == 0) {
+		output.type = 'special';
+		output.string = "Barcamp Bangalore 13 begins at 08:00 AM on 2nd March 2013, hope to see you there!";
+	}
+	else if (current_slot_index == 12) { // the day has ended
+		output.type = 'special';
+		output.string = "Barcamp Bangalore 13 is over. Thanks for coming by.";
+	}
+	else { // we are in some session
+		output.type = schJSON.slots[current_slot_index-1].type;
+		output.tracks = schJSON.tracks;
+		output.slot = schJSON.slots[current_slot_index-1];
+	}
+
+	updates.emit( "current_session", { ata: output } );
+}
 
 /**
 * Websockets
@@ -206,12 +244,13 @@ io.configure(function() {
 
 var updates = io.of('/updates').on('connection', function(client) {
 	totWallUsers++;
+	console.log(' | User '+ client.id +' connected, total wall users: ' + totWallUsers)
 
 	if ((totWallUsers > 0) && (twitter_stream == '')) {
 		connectStream();
 	}
 
-	// setCurrentSession();
+	setCurrentSession();
 	try {
 		var updJSON = JSON.parse(fs.readFileSync(__dirname +'/updates.json', 'utf8'));
 		client.json.emit('init_updates', { ata : updJSON } );
@@ -222,7 +261,7 @@ var updates = io.of('/updates').on('connection', function(client) {
 
 	client.on('disconnect', function() {
 		totWallUsers--;
-		console.log(' | User '+ client.id +' disconnected, total users: '+ totWallUsers);
+		console.log(' | User '+ client.id +' disconnected, total wall users: '+ totWallUsers);
 
 		if (totWallUsers == 0) {
 			console.log(' | 0 Users, disconnecting Twitter stream');
@@ -232,3 +271,5 @@ var updates = io.of('/updates').on('connection', function(client) {
 
 	});
 });
+
+var currentSessionInterval = setInterval(setCurrentSession, 300000);

@@ -8,7 +8,29 @@
 		<script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="./socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="./js/jmpress.all.min.js"></script>
-		<script type="text/javascript" src"moment.js"></script>
+		<script type="text/javascript" src="./js/moment.min.js"></script>
+		<script type="text/javascript" src="./js/handlebars.js"></script>
+		<script id="tweet_template" type="text/x-handlebars-template">
+		<div class="step tweet {{#if media}} has_media {{/if}}" id="tweet_{{id_str}}" data-x="{{x}}" data-y="{{y}}" data-z="{{z}}" data-scale="{{scale}}">
+			<div class="tweet_avatar_container"> <img class="tweet_avatar" src="{{profile_image}}" /></div>
+			<div class="tweet_content_container">
+				<div class="tweet_user">
+					<span class="tweet_user_name">{{user_name}}</span>
+					<span class="tweet_user_handle">{{user_screen_name}}</span>
+				</div>
+				<div class="tweet_content">{{tweet_text}}</div>
+				<div class="tweet_time">{{tweet_time}}</div>
+			</div>
+			{{#if media}}
+			<div class="clear">&nbsp;</div>
+			<div class="tweet_media">
+				<img src="{{media_url}}" />
+			</div>
+			{{/if}}
+		</div>
+		</script>
+		<script id="update_template" type="text/x-handlebars-template"></script>
+		<script id="session_template" type="text/x-handlebars-template"></script>
 		<script type="text/javascript" src="./js/streaming.js"></script>
 		<link rel="stylesheet" href="./css/style.css" />
 	</head>

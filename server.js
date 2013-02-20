@@ -3,7 +3,7 @@
 */
 
 var express = require('express'),
-	app = express(),
+	app = module.exports = express(),
 	fs = require('fs');
 
 app.configure(function() {
@@ -33,7 +33,7 @@ var config = function() {
 		console.log("Error while reading config.json: " + e);
 	}
 
-	if(typeof(json.twitter !== undefined)) {
+	if(typeof(json.twitter) !== undefined) {
 		config.twitter = { 
 			consumer_key		: json.twitter.consumer_key,
 			consumer_secret		: json.twitter.consumer_secret,
@@ -43,7 +43,7 @@ var config = function() {
 		}
 	};
 
-	if(typeof(json.schedule !== undefined)) {
+	if(typeof(json.schedule) !== undefined) {
 		config.schedule = {
 			host	: json.schedule.host,
 			port	: json.schedule.port,
@@ -52,9 +52,26 @@ var config = function() {
 		}
 	}
 
+	if(typeof(json.admin) !== undefined) {
+		config.admin = {
+			user : json.admin.user,
+			pass : json.admin.pass
+		}
+	}
+
 	return config;
 }();
 
+/**
+* Utils
+*/
+var adminAuth = express.basicAuth( function(user, password) {
+	return ( user == config.admin.user && password == config.admin.pass) ? true : false;
+});
+
+function strencode( data ) {
+  return unescape( encodeURIComponent( JSON.stringify( data ) ) );
+}
 
 /**
 * Routing
@@ -63,11 +80,39 @@ var config = function() {
 * /wall
 * /admin
 * /push
-* /update
-* /send-update
+* GET /update
+* POST /update
 * /
 */
 
+app.get('/schedule', function(req, res) {
+	res.sendfile(__dirname + '/public/schedule.html');
+});
+
+app.get('/wall', function(req, res) {
+	res.sendfile(__dirname + '/public/wall.html');
+});
+
+app.get('/admin', adminAuth, function(req, res) {
+	res.sendfile(__dirname + '/public/admin.html');
+});
+
+app.get('/push', adminAuth, function(req, res) {
+});
+
+app.get('/update', adminAuth, function(req, res) {
+	res.sendfile(__dirname + '/public/update.html');
+});
+
+app.post('/update', adminAuth, function(req, res) {
+});
+
+app.get('/', function(req, res) {
+	res.sendfile(__dirname + '/public/wall.html');
+})
+
+app.listen(8080);
+console.log('Server listening');
 /**
 * Twitter functions
 *
@@ -76,7 +121,8 @@ var config = function() {
 * handle disconnects from twitter
 */
 
-var twitter = require('ntwitter');
+var twitter = require('ntwitter'), 
+twitter_stream = '';
 
 var t = new twitter({
 	consumer_key: config.twitter.consumer_key,
@@ -85,22 +131,26 @@ var t = new twitter({
 	access_token_secret: config.twitter.access_token_secret
 });
 
-t.stream('statuses/filter', {track: config.twitter.track}, function(stream) {
+function connectStream(){
 
-	console.log('* Stream start');
+	twitter_stream = t.stream('statuses/filter', {track: config.twitter.track}, function(stream) {
 
-	stream.on('data', function(data){
-		console.log(data);
+		console.log('* Stream start');
+
+		stream.on('data', function(data){
+			console.log(data);
+		});
+
+		stream.on('end', function(data) {
+			console.log('* Stream end');
+		});
+
+		stream.on('error', function(error) {
+			console.log('error' + error);
+		});
 	});
-
-	stream.on('end', function(data) {
-		console.log('* Stream end');
-	});
-
-	stream.on('error', function(data) {
-		console.log('error' + data);
-	});
-});
+	
+}
 
 /**
 * Schedule functions

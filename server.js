@@ -107,6 +107,7 @@ app.get('/update', adminAuth, function(req, res) {
 });
 
 app.post('/update', adminAuth, function(req, res) {
+	handleUpdatePost(req,res);
 });
 
 app.get('/', function(req, res) {
@@ -168,7 +169,7 @@ function connectStream(){
 			connectStream();
 		});
 	});
-	
+																																																																																																
 }
 
 /**
@@ -184,6 +185,34 @@ function connectStream(){
 *
 * handle post of an update
 */
+
+function handleUpdatePost(request, response) {
+	if(request.body.update_cancel == undefined && request.body.update_submit == "true") {
+		// handle post
+		var update_string = request.body.update_text;
+
+		updates.json.emit("new_update", { ata : update_string });
+		response.write("Update pushed<br />");
+
+		try {
+			var updJSON = JSON.parse(fs.readFileSync(__dirname +'/updates.json', 'utf8'));
+			updJSON.updates.push(update_string);
+			fs.writeFileSync(__dirname+'/updates.json', JSON.stringify(updJSON), 'utf8');
+		}
+		catch(e) {
+			console.log("Error: " + e);
+		}
+		response.write("Update stored<br />");
+		response.end();
+	}
+	else if(request.body.update_submit == undefined && request.body.update_cancel == "true") {
+		response.redirect('/update');
+	}
+	else {
+		response.write("Incorrect request<br />");
+		response.end();
+	}
+}
 
 var moment = require('moment');
 

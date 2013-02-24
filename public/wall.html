@@ -12,7 +12,7 @@
 		<script type="text/javascript" src="./js/handlebars.js"></script>
 		<script id="tweet_template" type="text/x-handlebars-template">
 		<div class="step tweet {{#if media}} has_media {{/if}}" id="tweet_{{id_str}}" data-x="{{x}}" data-y="{{y}}" data-z="{{z}}" data-scale="{{scale}}">
-			<div class="tweet_avatar_container"> <img class="tweet_avatar" src="{{profile_image}}" /></div>
+			<div class="tweet_avatar" style="background-image: url({{profile_image}});">&nbsp;</div>
 			<div class="tweet_content_container">
 				<div class="tweet_user">
 					<span class="tweet_user_name">{{user_name}}</span>
@@ -30,7 +30,12 @@
 		</div>
 		</script>
 		<script id="update_template" type="text/x-handlebars-template"></script>
-		<script id="session_template" type="text/x-handlebars-template"></script>
+		<script id="session_template" type="text/x-handlebars-template">
+		<div class="current_session">
+			<div class="current_session_location">{{location}}</div>
+			<div class="current_session_title">{{title}}</div>
+		</div>
+		</script>
 		<script type="text/javascript" src="./js/streaming.js"></script>
 		<link rel="stylesheet" href="./css/style.css" />
 	</head>

@@ -77,6 +77,10 @@ body {
 	overflow: hidden;
 }
 
+a {
+	color: white;
+}
+
 .fixed_slot {
 	height: 5%;
 }

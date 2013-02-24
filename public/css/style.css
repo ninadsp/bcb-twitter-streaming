@@ -79,6 +79,7 @@ body {
 	padding: 12px;
 	border-radius: 10px;
 	background-color: rgba(0,0,0,0.5);
+	word-wrap: break-word;
 }
 
 #updates_wrapper a {
@@ -105,15 +106,17 @@ body {
 }
 
 .current_session_time {
-	width: 10%;
+	width: 8%;
 	display: inline-block;
 	vertical-align: top;
+	padding: 15px 0px 0px 2%;
 }
 
 .current_session {
-	width: 15%;
+	width: 13%;
 	display: inline-block;
 	vertical-align: top;
+	padding: 15px 1% 0px 0px;
 }
 
 .current_session_location {
@@ -131,18 +134,15 @@ body {
 .tweet {
 }
 
-.tweet_avatar_container {
+.tweet_avatar {
 	width: 65px;
 	height: 120px;
 	float: left;
-}
-
-.tweet_avatar {
-	height: 48px;
-	width: 48px;
-	padding: 36px 7px 36px 15px;
+	background-position: center;
+	background-repeat: no-repeat;
 	opacity: 0.1;
 }
+
 .active .tweet_avatar {
 	opacity: 1.0;
 }
@@ -194,13 +194,29 @@ body {
 
 .tweet_media {
 	width: 500px;
-	height:  300px;
-	overflow: hidden;
+	height:  270px;
 	padding: 15px 0px;
+	line-height: 270px;
+	text-align: center;
+	/*background-position: center center;
+	background-repeat: no-repeat;
+	opacity: 0.1;*/
 }
+
 .tweet_media img {
-	width: 340px;
-	margin: 0px 80px;
+	max-width: 500px;
+	max-height: 270px;
+	vertical-align: middle;
+}
+
+.active .tweet_media {
+	opacity: 1;
+}
+
+.tweet_media img {
+	max-width: 340px;
+	max-height: 270px;
+	margin: 0px auto;
 	opacity: 0.1;
 }
 

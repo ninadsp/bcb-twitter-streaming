@@ -6,7 +6,28 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=yes" />
 		<script type="text/javascript" src="./js/jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="./socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="./js/handlebars.js"></script>
 		<script type="text/javascript" src="./js/schedule.js"></script>
+		<script type="text/x-handlebars-template" id="fixed_slot_template">
+		<tr class="fixed_slot">
+			<td class="col_0">{{time_string}}</td>
+			<td class="col" colspan="6">
+			{{#if techlash}}
+				<img id="teklash_logo" src="/images/teklash.png" alt="Techlash" />
+			{{else}}
+				{{name}}
+			{{/if}}
+			</td>
+		</tr>
+		</script>
+		<script type="text/x-handlebars-template" id="normal_slot_template">
+		<tr class="session_slot">
+			<td class="col_0">{{time_string}}</td>
+			{{#each sessions}}
+				<td class="col"><a href="http://barcampbangalore.org/bcb/?p={{id}}" target="_blank">{{title}}</a></td>
+			{{/each}}
+		</tr>
+		</script>
 		<link rel="stylesheet" href="./css/schedule.css" />
 	</head>
 	<body>
@@ -29,7 +50,7 @@
 
 				<tr class="fixed_slot">
 					<td class="col_0">09:00-09:30</td>
-					<td class="col" colspan="6">Registration</td>
+					<td class="col" colspan="6">Introduction</td>
 				</tr>
 
 				<tr class="session_slot">

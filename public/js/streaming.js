@@ -27,12 +27,10 @@ $(document).ready(function() {
 	}
 
 	var tweet_template_source = $("#tweet_template").html(),
-		update_template_source = $("#update_template").html(),
 		session_template_source = $("#session_template").html();
 
 	var tweet_template = Handlebars.compile(tweet_template_source);
-	// var update_template = Handlebars.compile(update_template_source);
-	// var session_template = Handlebars.compile(session_template_source);
+	var session_template = Handlebars.compile(session_template_source);
 
 	var interval = window.setInterval(function(){ 
 				var tweets_count = $(".tweet").length;
@@ -120,14 +118,12 @@ $(document).ready(function() {
 		else if(d.ata.type == "session" ){
 			var html_to_insert = '<div class="current_session_time"><b>Now:</b><br /> '+d.ata.slot.time+'</div>';
 			$(d.ata.slot.sessions).each(function(idx, session) {
-				html_to_insert += '<div class="current_session">';
-				html_to_insert += '<div class="current_session_location">'+session.location+'</div>';
 				var title = session.title;
 				if(title.length > 56) {
 					title = title.slice(0,53) + "&hellip;";
 				}
-				html_to_insert += '<div class="current_session_title">'+session.title+'</div>';
-				html_to_insert += '</div>';
+				var session_context = {location: session.location, title: title};
+				html_to_insert += session_template(session_context);
 			});
 			$("#current_session_wrapper").html(html_to_insert);
 		}
@@ -154,7 +150,7 @@ $(document).ready(function() {
 			user_name: tweet.user.name,
 			user_screen_name: tweet.user.screen_name,
 			tweet_text: tweet.text,
-			tweet_time: moment(tweet.created_at).fromNow()
+			tweet_time: moment(tweet.created_at).format("D MMM YYYY, h:m a")
 		};
 
 		if( (tweet.entities.media !== undefined )&& ( tweet.entities.media.length > 0 ) )  {
@@ -174,12 +170,12 @@ $(document).ready(function() {
 	socket.on('init_updates', function(d) {
 			$("#updates_wrapper li").remove();
 			$(d.ata.updates).each(function(idx, update_string) {
-				$("#updates_wrapper ul").prepend('<li>'+update_string+'</li>');
+				$("#updates_wrapper ul").prepend('<li>'+convertURLs(update_string)+'</li>');
 			});
 		});
 
 	socket.on('new_update', function(d) {
-		$("#updates_wrapper ul").prepend('<li>'+d.ata+'</li>').slideDown('1200');
+		$("#updates_wrapper ul").prepend('<li>'+convertURLs(d.ata)+'</li>').slideDown('1200');
 	});
 
 });

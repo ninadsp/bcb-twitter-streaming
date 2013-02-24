@@ -11,6 +11,8 @@ $(document).ready(function() {
 		}
 	};
 
+	var fixed_slot_template = Handlebars.compile($('#fixed_slot_template').html());
+	var normal_slot_template = Handlebars.compile($('#normal_slot_template').html());
 
 	var socket = new io.connect(window.location.href);
 	socket.on('connect', function(){
@@ -37,6 +39,8 @@ $(document).ready(function() {
 		$("#container").removeClass('small').addClass('large');
 	}
 
+
+
 	function generateSchedule(data){
 		if(data.status == "have stuff") {
 			var tracks = data.tracks;
@@ -55,37 +59,43 @@ $(document).ready(function() {
 			$(slots).each(function(idx, slot) {
 				if(slot.type == "fixed") {
 
-					var slot_tr = $('<tr class="fixed_slot"></tr>');
+					var slot_context = {};
 					if(slot.time == undefined) {
-						slot_tr.append('<td class="col_0">'+slot.startTime+'-'+slot.endTime+'</td>');
+						slot_context.time_string = slot.startTime + '-' + slot.endTime;
 					}
 					else {
-						slot_tr.append('<td class="col_0">'+slot.time+'</td>');
+						slot_context.time_string = slot.time;
 					}
+
+					slot_context.name = slot.name;
 					if(slot.id == 7) {
-						slot_tr.append('<td class="col" colspan="6"><img id="teklash_logo" src="/images/teklash.png" /></td>');
+						slot_context.techlash = true;
 					}
 					else {
-						slot_tr.append('<td class="col" colspan="6">'+slot.name+'</td>');
+						slot_context.techlash = false;
 					}
+					console.log('appending row for '+slot_context.name);
+					var slot_tr = fixed_slot_template(slot_context);
 				}
 				else if (slot.type == "session") {
 
-					var slot_tr = $('<tr class="session_slot"></tr>');
+					var slot_context = {};
+					slot_context.sessions = new Array();
 					if(slot.time == undefined) {
-						slot_tr.append('<td class="col_0">'+slot.startTime+'-'+slot.endTime+'</td>');
+						slot_context.time_string = slot.startTime + '-' + slot.endTime;
 					}
 					else {
-						slot_tr.append('<td class="col_0">'+slot.time+'</td>');
+						slot_context.time_string = slot.time;
 					}
 					$(slot.sessions).each(function(idx, session) {
 						var title = session.title;
 						if(title.length > 56)
 							title = title.slice(0, 53) + '&hellip;'
-						slot_tr.append('<td class="col">'+title+'</td>');
+						slot_context.sessions.push({title: title, id: session.id});
 					});
+					var slot_tr = normal_slot_template(slot_context);
 				}
-				table_html.append(slot_tr);
+				table_html.find('tbody').append(slot_tr);
 			});
 		}
 		else {

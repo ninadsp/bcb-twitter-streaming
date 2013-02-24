@@ -100,6 +100,7 @@ app.get('/admin', adminAuth, function(req, res) {
 });
 
 app.get('/push', adminAuth, function(req, res) {
+	updateJSON(req, res);
 });
 
 app.get('/update', adminAuth, function(req, res) {
@@ -160,7 +161,7 @@ function connectStream(){
 		stream.on('end', function(data) {
 			twitter_stream = '';
 			console.log(' | Stream end');
-			connectStream();
+			//connectStream();
 		});
 
 		stream.on('error', function(error) {
@@ -179,6 +180,48 @@ function connectStream(){
 * push updated schedule to client
 * update currently running session
 */
+
+function updateJSON(req, res) {
+	// get JSON from barcampbangalore.org
+
+	var schRequest = http.request({
+		host: config.schedule.host,
+		port: config.schedule.port,
+		path: config.schedule.path,
+		method: 'GET'
+	}, function(resp){
+			if(resp.statusCode == 200 ) {
+				var outfile = fs.createWriteStream(__dirname+'/web.json');
+
+				resp.setEncoding('utf8');
+				resp.on('data', function(chunk) {
+					outfile.write(chunk);
+				});
+				resp.on('end', function() { 
+					outfile.end();
+					console.log(' | Schedule retreived successfully');
+					try {
+						var schJSON = JSON.parse(fs.readFileSync(__dirname +'/web.json', 'utf8'));
+						schedules.json.send(schJSON);
+						console.log(' | Schedule pushed to clients');
+					}
+					catch(e) {
+						console.log("Error: " + e);
+					};
+
+					res.send('JSON updated!<br />');
+				});
+			}
+			else {
+				console.log('** Error in retrieving schedule JSON ' + resp.statusCode);
+			};
+	});
+
+	console.log(' | Retrieving schedule from '+config.schedule.host);
+	schRequest.end();
+
+}
+
 
 /**
 * Updates functions
@@ -232,11 +275,11 @@ function setCurrentSession() {
 	var output = {};
 
 	// we haven't yet started the day
-	if(current_slot_index == 0) {
+	if(current_slot_index <= 0) {
 		output.type = 'special';
 		output.string = "Barcamp Bangalore 13 begins at 08:00 AM on 2nd March 2013, hope to see you there!";
 	}
-	else if (current_slot_index == 12) { // the day has ended
+	else if (current_slot_index >= 12) { // the day has ended
 		output.type = 'special';
 		output.string = "Barcamp Bangalore 13 is over. Thanks for coming by.";
 	}
@@ -288,7 +331,7 @@ var updates = io.of('/updates').on('connection', function(client) {
 		console.log("** Error Initializing Updates: " + e);
 	}
 
-	client.on('disconnect', function() {
+   	client.on('disconnect', function() {
 		totWallUsers--;
 		console.log(' | User '+ client.id +' disconnected, total wall users: '+ totWallUsers);
 
@@ -302,3 +345,22 @@ var updates = io.of('/updates').on('connection', function(client) {
 });
 
 var currentSessionInterval = setInterval(setCurrentSession, 300000);
+
+var schedules = io.of('/schedule').on('connection', function(client) {
+	// push the current json to the new socket
+	totScheduleUsers++;
+	console.log(' | User ' + client.id + 'connected, total schedule users: ' + totScheduleUsers);
+
+	try {
+		var schJSON = JSON.parse(fs.readFileSync(__dirname +'/web.json', 'utf8'));
+		client.json.send(schJSON);
+	}
+	catch(e) {
+		console.log("Error: " + e);
+	};
+
+	client.on('disconnect', function() {
+		totScheduleUsers--;
+		console.log(' | User '+ client.id + ' disconnected, total schedule users: ' + totScheduleUsers);
+	});
+});

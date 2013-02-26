@@ -193,6 +193,17 @@ function pruneTweetBuffer() {
 * update currently running session
 */
 
+function pushSchedule() {
+	try {
+		var schJSON = JSON.parse(fs.readFileSync(__dirname + '/web.json', 'utf8'));
+		schedules.json.send(schJSON);
+		console.log(' | Schedule pushed to clients');
+	}
+	catch(e) {
+		throw e;
+	}
+}
+
 function updateJSON(req, res) {
 	// get JSON from barcampbangalore.org
 
@@ -213,15 +224,15 @@ function updateJSON(req, res) {
 					outfile.end();
 					console.log(' | Schedule retreived successfully');
 					try {
-						var schJSON = JSON.parse(fs.readFileSync(__dirname +'/web.json', 'utf8'));
-						schedules.json.send(schJSON);
-						console.log(' | Schedule pushed to clients');
+						pushSchedule();
 					}
 					catch(e) {
 						console.log("Error: " + e);
+						setTimeout(pushSchedule, 500);
 					};
 
-					res.send('JSON updated!<br />');
+					res.write('JSON updated!<br />');
+					res.end();
 				});
 			}
 			else {
@@ -363,7 +374,8 @@ var updates = io.of('/updates').on('connection', function(client) {
 });
 
 var currentSessionInterval = setInterval(setCurrentSession, 300000);
-var pruneTweetBufferInterval = setInterval(pruneTweetBuffer, 60000)
+var pruneTweetBufferInterval = setInterval(pruneTweetBuffer, 60000);
+var pushScheduleInterval = setInterval(pushSchedule, 300000);
 
 var schedules = io.of('/schedule').on('connection', function(client) {
 	// push the current json to the new socket

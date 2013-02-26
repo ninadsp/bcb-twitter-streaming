@@ -43,7 +43,7 @@ $(document).ready(function() {
 						});
 				}
 				$("#tweets_wrapper").jmpress('next');
-			}, 5000);
+			}, 10000);
 
 	Date.prototype.format = function (fmt) {
 		var date = this;

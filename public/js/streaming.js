@@ -150,7 +150,7 @@ $(document).ready(function() {
 			user_name: tweet.user.name,
 			user_screen_name: tweet.user.screen_name,
 			tweet_text: tweet.text,
-			tweet_time: moment(tweet.created_at).format("D MMM YYYY, h:m a")
+			tweet_time: moment(tweet.created_at).format("D MMM YYYY, h:mm a")
 		};
 
 		if( (tweet.entities.media !== undefined )&& ( tweet.entities.media.length > 0 ) )  {

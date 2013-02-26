@@ -127,7 +127,9 @@ console.log(' | Server listening');
 */
 
 var twitter = require('ntwitter'), 
-	twitter_stream = '';
+	twitter_stream = '',
+	tweet_buffer = new Array(),
+	tweet_buffer_length = 30;
 
 var t = new twitter({
 	consumer_key: config.twitter.consumer_key,
@@ -150,6 +152,7 @@ function connectStream(){
 			if(json.length > 0) {
 				try {
 					updates.emit('tweet', json);
+					tweet_buffer.push(data);
 				}
 				catch(e) {
 					console.log("** Error sending Tweet: " + e);
@@ -160,6 +163,7 @@ function connectStream(){
 
 		stream.on('end', function(data) {
 			twitter_stream = '';
+			pruneTweetBuffer();
 			console.log(' | Stream end');
 			//connectStream();
 		});
@@ -171,6 +175,14 @@ function connectStream(){
 		});
 	});
 																																																																																																
+}
+
+function pruneTweetBuffer() {
+	console.log(' | Pruning Tweet Buffer: START - ' + tweet_buffer.length);
+	if(tweet_buffer.length > tweet_buffer_length) {
+		tweet_buffer.splice(0, (tweet_buffer.length - tweet_buffer_length));
+	}
+	console.log(' | Pruning Tweet Buffer: END - ' + tweet_buffer.length);
 }
 
 /**
@@ -331,6 +343,12 @@ var updates = io.of('/updates').on('connection', function(client) {
 		console.log("** Error Initializing Updates: " + e);
 	}
 
+	if(tweet_buffer.length > 0) {
+		tweet_buffer.forEach(function(element){
+			client.json.emit('tweet', strencode(element));
+		})
+	}
+
    	client.on('disconnect', function() {
 		totWallUsers--;
 		console.log(' | User '+ client.id +' disconnected, total wall users: '+ totWallUsers);
@@ -345,6 +363,7 @@ var updates = io.of('/updates').on('connection', function(client) {
 });
 
 var currentSessionInterval = setInterval(setCurrentSession, 300000);
+var pruneTweetBufferInterval = setInterval(pruneTweetBuffer, 60000)
 
 var schedules = io.of('/schedule').on('connection', function(client) {
 	// push the current json to the new socket

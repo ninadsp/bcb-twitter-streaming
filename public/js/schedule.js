@@ -11,8 +11,8 @@ $(document).ready(function() {
 		}
 	};
 
-	var fixed_slot_template = Handlebars.compile($('#fixed_slot_template').html());
-	var normal_slot_template = Handlebars.compile($('#normal_slot_template').html());
+	var fixed_slot_template = Handlebars.templates['schedule-fixed-slot'];
+	var normal_slot_template = Handlebars.templates['schedule-normal-slot'];
 
 	var socket = new io.connect(window.location.href);
 	socket.on('connect', function(){

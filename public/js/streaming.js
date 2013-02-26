@@ -29,8 +29,8 @@ $(document).ready(function() {
 	var tweet_template_source = $("#tweet_template").html(),
 		session_template_source = $("#session_template").html();
 
-	var tweet_template = Handlebars.compile(tweet_template_source);
-	var session_template = Handlebars.compile(session_template_source);
+	var tweet_template = Handlebars.templates['wall-tweet'];
+	var session_template = Handlebars.templates['wall-session'];
 
 	var interval = window.setInterval(function(){ 
 				var tweets_count = $(".tweet").length;

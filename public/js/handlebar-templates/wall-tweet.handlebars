@@ -1,0 +1,17 @@
+<div class="step tweet {{#if media}} has_media {{/if}}" id="tweet_{{id_str}}" data-x="{{x}}" data-y="{{y}}" data-z="{{z}}" data-scale="{{scale}}">
+	<div class="tweet_avatar" style="background-image: url({{profile_image}});">&nbsp;</div>
+	<div class="tweet_content_container">
+		<div class="tweet_user">
+			<span class="tweet_user_name">{{user_name}}</span>
+			<span class="tweet_user_handle">{{user_screen_name}}</span>
+		</div>
+		<div class="tweet_content">{{tweet_text}}</div>
+		<div class="tweet_time">{{tweet_time}}</div>
+	</div>
+	{{#if media}}
+	<div class="clear">&nbsp;</div>
+	<div class="tweet_media">
+		<img src="{{media_url}}" />
+	</div>
+	{{/if}}
+</div>

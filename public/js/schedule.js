@@ -16,15 +16,12 @@ $(document).ready(function() {
 
 	var socket = new io.connect(window.location.href);
 	socket.on('connect', function(){
-//		Debug.log('Connected');
 	});
 
 	socket.on('from', function(data) {
-//		Debug.log(data);
 	});
 
 	socket.on('schupdate', function(data) {
-//		Debug.log('schupdate');
 	});
 
 	socket.on('message', function(data) {
@@ -32,7 +29,6 @@ $(document).ready(function() {
 	});
 
 	socket.on('disconnect', function(){
-//		Debug.log("Disconnected");
 	});
 
 	if(window.location.href.search('large$') != -1) {
@@ -74,7 +70,6 @@ $(document).ready(function() {
 					else {
 						slot_context.techlash = false;
 					}
-					console.log('appending row for '+slot_context.name);
 					var slot_tr = fixed_slot_template(slot_context);
 				}
 				else if (slot.type == "session") {

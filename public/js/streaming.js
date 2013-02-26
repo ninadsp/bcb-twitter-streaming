@@ -170,12 +170,12 @@ $(document).ready(function() {
 	socket.on('init_updates', function(d) {
 			$("#updates_wrapper li").remove();
 			$(d.ata.updates).each(function(idx, update_string) {
-				$("#updates_wrapper ul").prepend('<li>'+convertURLs(update_string)+'</li>');
+				$("#updates_wrapper ul").prepend('<li>'+update_string+'</li>');
 			});
 		});
 
 	socket.on('new_update', function(d) {
-		$("#updates_wrapper ul").prepend('<li>'+convertURLs(d.ata)+'</li>').slideDown('1200');
+		$("#updates_wrapper ul").prepend('<li>'+d.ata+'</li>').slideDown('1200');
 	});
 
 });

@@ -224,9 +224,6 @@ body {
 	opacity: 1;
 }
 
-#qr_code img{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	height: 70px;
+#qr_code{
+	display: none;
 }

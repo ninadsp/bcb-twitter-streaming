@@ -178,11 +178,11 @@ function connectStream(){
 }
 
 function pruneTweetBuffer() {
-	console.log(' | Pruning Tweet Buffer: START - ' + tweet_buffer.length);
 	if(tweet_buffer.length > tweet_buffer_length) {
+		console.log(' | Pruning Tweet Buffer: START - ' + tweet_buffer.length);
 		tweet_buffer.splice(0, (tweet_buffer.length - tweet_buffer_length));
+		console.log(' | Pruning Tweet Buffer: END - ' + tweet_buffer.length);
 	}
-	console.log(' | Pruning Tweet Buffer: END - ' + tweet_buffer.length);
 }
 
 /**

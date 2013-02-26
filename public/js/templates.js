@@ -47,8 +47,8 @@ function program1(depth0,data) {
     + "\" target=\"_blank\">";
   if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</a></td>\n	";
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</a></td>\n	";
   return buffer;
   }
 

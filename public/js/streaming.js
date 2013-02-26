@@ -149,7 +149,7 @@ $(document).ready(function() {
 			profile_image: tweet.user.profile_image_url,
 			user_name: tweet.user.name,
 			user_screen_name: tweet.user.screen_name,
-			tweet_text: tweet.text,
+			tweet_text: convertURLs(tweet.text),
 			tweet_time: moment(tweet.created_at).format("D MMM YYYY, h:mm a")
 		};
 

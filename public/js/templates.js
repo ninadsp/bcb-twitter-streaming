@@ -139,8 +139,8 @@ function program3(depth0,data) {
     + "</span>\n		</div>\n		<div class=\"tweet_content\">";
   if (stack1 = helpers.tweet_text) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.tweet_text; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</div>\n		<div class=\"tweet_time\">";
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</div>\n		<div class=\"tweet_time\">";
   if (stack1 = helpers.tweet_time) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.tweet_time; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)

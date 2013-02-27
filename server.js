@@ -220,17 +220,19 @@ function updateJSON(req, res) {
 				resp.on('data', function(chunk) {
 					outfile.write(chunk);
 				});
-				resp.on('end', function() { 
-					outfile.end();
+
+				outfile.on('close', function() {
 					console.log(' | Schedule retreived successfully');
 					try {
 						pushSchedule();
 					}
 					catch(e) {
 						console.log("Error: " + e);
-						setTimeout(pushSchedule, 500);
 					};
+				});
 
+				resp.on('end', function() { 
+					outfile.end();
 					res.write('JSON updated!<br />');
 					res.end();
 				});

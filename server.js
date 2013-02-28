@@ -165,7 +165,6 @@ function connectStream(){
 			twitter_stream = '';
 			pruneTweetBuffer();
 			console.log(' | Stream end');
-			//connectStream();
 		});
 
 		stream.on('error', function(error) {
@@ -193,15 +192,29 @@ function pruneTweetBuffer() {
 * update currently running session
 */
 
-function pushSchedule() {
-	try {
-		var schJSON = JSON.parse(fs.readFileSync(__dirname + '/web.json', 'utf8'));
-		schedules.json.send(schJSON);
-		console.log(' | Schedule pushed to clients');
+var schJSON = {},
+	updJSON = {};
+
+function readJSON() {
+	try{
+		console.log(' | Reading JSON');
+		fs.readFile(__dirname + '/web.json', 'utf8', function(error, data) {
+			schJSON = JSON.parse(data);
+		});
+		fs.readFile(__dirname + '/updates.json', 'utf8', function(err, data) {
+			updJSON = JSON.parse(data);
+		})
 	}
 	catch(e) {
-		throw e;
+		console.log('** Error reading JSON: ' + e);
 	}
+}
+
+readJSON();
+
+function pushSchedule() {
+	schedules.json.send(schJSON);
+	console.log(' | Schedule pushed to clients');
 }
 
 function updateJSON(req, res) {
@@ -215,15 +228,18 @@ function updateJSON(req, res) {
 	}, function(resp){
 			if(resp.statusCode == 200 ) {
 				var outfile = fs.createWriteStream(__dirname+'/web.json');
+				var buff = '';
 
 				resp.setEncoding('utf8');
 				resp.on('data', function(chunk) {
 					outfile.write(chunk);
+					buff += chunk;
 				});
 
 				outfile.on('close', function() {
 					console.log(' | Schedule retreived successfully');
 					try {
+						schJSON = JSON.parse(buff);
 						pushSchedule();
 					}
 					catch(e) {
@@ -263,12 +279,13 @@ function handleUpdatePost(request, response) {
 		response.write("Update pushed<br />");
 
 		try {
-			var updJSON = JSON.parse(fs.readFileSync(__dirname +'/updates.json', 'utf8'));
+			var updateJSON = JSON.parse(fs.readFileSync(__dirname +'/updates.json', 'utf8'));
+			updateJSON.updates.push(update_string);
+			fs.writeFileSync(__dirname+'/updates.json', JSON.stringify(updateJSON), 'utf8');
 			updJSON.updates.push(update_string);
-			fs.writeFileSync(__dirname+'/updates.json', JSON.stringify(updJSON), 'utf8');
 		}
 		catch(e) {
-			console.log("Error: " + e);
+			console.log("Error storing update: " + e);
 		}
 		response.write("Update stored<br />");
 		response.end();
@@ -294,8 +311,6 @@ function setCurrentSession() {
 			break;
 		}
 	}
-
-	var schJSON = JSON.parse(fs.readFileSync(__dirname +'/web.json', 'utf8'));
 
 	var output = {};
 
@@ -329,6 +344,8 @@ var	io = require('socket.io').listen(server),
 	
 io.configure(function() { 
 	io.enable('browser client minification');
+	io.enable('browser client etag');
+	io.enable('browser client gzip');
 	io.set('log level', 1); 
 	io.set('transports', [ 
 			'websocket',
@@ -347,14 +364,9 @@ var updates = io.of('/updates').on('connection', function(client) {
 		connectStream();
 	}
 
+	client.json.emit('init_updates', { ata : updJSON } );
+
 	setCurrentSession();
-	try {
-		var updJSON = JSON.parse(fs.readFileSync(__dirname +'/updates.json', 'utf8'));
-		client.json.emit('init_updates', { ata : updJSON } );
-	}
-	catch(e) {
-		console.log("** Error Initializing Updates: " + e);
-	}
 
 	if(tweet_buffer.length > 0) {
 		tweet_buffer.forEach(function(element){
@@ -384,13 +396,7 @@ var schedules = io.of('/schedule').on('connection', function(client) {
 	totScheduleUsers++;
 	console.log(' | User ' + client.id + 'connected, total schedule users: ' + totScheduleUsers);
 
-	try {
-		var schJSON = JSON.parse(fs.readFileSync(__dirname +'/web.json', 'utf8'));
-		client.json.send(schJSON);
-	}
-	catch(e) {
-		console.log("Error: " + e);
-	};
+	client.json.send(schJSON);
 
 	client.on('disconnect', function() {
 		totScheduleUsers--;

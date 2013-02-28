@@ -23,11 +23,10 @@ body {
 }
 
 .large_message {
-	height: 100px;
-	width: 600px;
-	margin: 50px auto;
+	margin: 40px auto;
 	font-size: 18px;
 	text-align: center;
+	vertical-align: middle;
 }
 
 .large_message a {

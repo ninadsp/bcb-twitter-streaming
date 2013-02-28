@@ -44,6 +44,7 @@ $(document).ready(function() {
 			var slots = data.slots;
 
 			$("#schedule_table").remove();
+			$("#message").empty().hide();
 			var table_html = $("<table id='schedule_table' cellpadding='0' cellspacing='0'></table>");
 			table_html.prepend('<tr class="head"></tr>');
 			var tr_head = $(table_html).find('tr.head');
@@ -91,12 +92,15 @@ $(document).ready(function() {
 					var slot_tr = normal_slot_template(slot_context);
 				}
 				table_html.find('tbody').append(slot_tr);
+
+				$("#container").append(table_html);
 			});
 		}
-		else {
-			var table_html = '<div class="large_message">'+data.status+'</div>';
+
+		if( (data.status !== undefined) && (data.status != 'have stuff') ) {
+			$("#message").html(data.status).show();
 		}
 		
-		$("#container").html(table_html);
+		
 	};
 });

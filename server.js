@@ -324,9 +324,16 @@ function setCurrentSession() {
 		output.string = "Barcamp Bangalore 13 is over. Thanks for coming by.";
 	}
 	else { // we are in some session
-		output.type = schJSON.slots[current_slot_index-1].type;
-		output.tracks = schJSON.tracks;
-		output.slot = schJSON.slots[current_slot_index-1];
+        if(typeof(schJSON.slots) === "undefined") {
+            // Argh! We don't yet have a schedule! Fill up all the slots and generate it
+            output.type = 'special';
+            output.string = 'Barcamp Bangalore 13 is go! Where is the schedule yo?';
+        }
+        else {
+            output.type = schJSON.slots[current_slot_index-1].type;
+            output.tracks = schJSON.tracks;
+            output.slot = schJSON.slots[current_slot_index-1];
+        }
 	}
 
 	updates.emit( "current_session", { ata: output } );

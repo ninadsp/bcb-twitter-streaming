@@ -14,7 +14,8 @@ $(document).ready(function() {
 	var fixed_slot_template = Handlebars.templates['schedule-fixed-slot'];
 	var normal_slot_template = Handlebars.templates['schedule-normal-slot'];
 
-	var socket = new io.connect(window.location.href);
+	//var socket = new io.connect(window.location.href);
+	var socket = new io.connect('/schedule');
 	socket.on('connect', function(){
 	});
 

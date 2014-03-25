@@ -65,7 +65,8 @@ $(document).ready(function() {
 	* Main
 	*/
 
-	var socket = new io.connect(window.location.href + 'updates');
+	//var socket = new io.connect(window.location.href + 'updates');
+	var socket = new io.connect('/updates');
 	
 	//console.log(socket);
 	var tweets = $("#tweets"),
@@ -116,7 +117,7 @@ $(document).ready(function() {
 			$("#current_session_wrapper").html('<div class="large_text">'+d.ata.string+'</div>');
 		}
 		else if(d.ata.type == "session" ){
-			var html_to_insert = '<div class="current_session_time"><b>Now:</b><br /> '+d.ata.slot.time+'</div>';
+			var html_to_insert = '<div class="current_session_time"><div class="current_session_location">Now:</div> <div>'+d.ata.slot.time+'</div></div>';
 			$(d.ata.slot.sessions).each(function(idx, session) {
 				var title = session.title;
 				if(title.length > 56) {
@@ -157,6 +158,20 @@ $(document).ready(function() {
 			tweet_context.media = true;
 			tweet_context.media_url = tweet.entities.media[0].media_url + ':small';
 		}
+
+        var random_colour = Math.floor(Math.random() * 10 / 4);
+
+        switch(random_colour) {
+            case 0:
+                tweet_context.random_colour = "redbg";
+                break;
+            case 1:
+                tweet_context.random_colour = "bluebg";
+                break;
+            case 2:
+                tweet_context.random_colour = "greenbg";
+                break;
+        }
 		
 		var tweet_html_to_insert = tweet_template(tweet_context);
 

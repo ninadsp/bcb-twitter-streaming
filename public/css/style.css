@@ -1,6 +1,6 @@
 body {
-    background-color: #3f3f3f;
-    background-image: url(/images/wood_pattern.jpg);
+    background-color: #4d4926;
+    background-image: url(/images/background_pattern.jpg);
     width: 1024px;
     height: 768px;
     margin: 0 auto;
@@ -14,19 +14,20 @@ body {
 }
 #start {
     font-size: 30px;
-    color: white;
+    color: black;
 }
 .step {
-    color: rgba(0,0,0,0.4);
+    color: #666666;
     width: 500px;
-    height: 120px;
+    height: 180px;
+/*    padding: 20px;*/
     font-size: 16px;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(255,255,255,0.2);
     border-radius: 9px;
 }
 .step.active {
-    color: white;
-    background-color: rgba(0,0,0,0.8);
+    color: black;
+    background-color: rgba(255,255,255,1);
     opacity: 1.0;
     transition: background 2s;
     -webkit-transition: background 2s;
@@ -35,7 +36,7 @@ body {
     -o-transition: background 2s;
 }
 .step.has_media {
-	height: 450px;
+	height: 510px;
 }
 /*
 .step {
@@ -65,7 +66,7 @@ body {
     overflow: hidden;
     color: white;
     margin: 10px 0px;
-    background-color: rgba(0,0,0,0.25);
+/*    background-color: rgba(0,0,0,0.25);*/
     border-radius: 9px;
 }
 
@@ -78,20 +79,22 @@ body {
 	font-size: 20px;
 	padding: 12px;
 	border-radius: 10px;
-	background-color: rgba(0,0,0,0.5);
+	background-color: #FED904;
+    color: black;
 	word-wrap: break-word;
 }
 
 #updates_wrapper a {
-	color: white;
+	color: #666666;
 	font-weight: bold;
 }
 
 #current_session_wrapper {
 	width: 1024px;
 	height: 118px;
-	background-color: rgba(0,0,0,0.6);
+	background-color: white;
 	border-radius: 9px;
+    color: black;
 }
 
 .clear {
@@ -102,41 +105,73 @@ body {
 #current_session_wrapper .large_text {
 	text-align: center;
 	font-size: 1.2em;
-	padding: 50px 150px;
+	padding: 50px 100px;
 }
 
 .current_session_time {
-	width: 8%;
+	width: 10%;
 	display: inline-block;
 	vertical-align: top;
-	padding: 15px 0px 0px 2%;
+    border-top-left-radius: inherit;
+}
+
+.current_session_time div {
+    padding-left: 10px;
+    border-top-left-radius: inherit;
 }
 
 .current_session {
-	width: 13%;
+	width: 15%;
 	display: inline-block;
 	vertical-align: top;
-	padding: 15px 1% 0px 0px;
 }
 
 .current_session_location {
 	font-weight: bold;
+    background: #FED904;
+    padding-top: 12px;
+    padding-bottom: 3px;
+}
+
+.current_session:last-of-type, .current_session:last-of-type .current_session_location {
+    border-top-right-radius: inherit;
 }
 
 .current_session_title {
+    padding-right: 10px;
 }
 
 #start div {
-	padding: 30px 190px;
+	padding: 50px 150px;
 	font-size: 40px;
 }
 
+#tweets_container {
+    background: none;
+}
+
 .tweet {
+	color: #666666;
+}
+
+.active.redbg .tweet_header{
+    background: #BD3636;
+    color: white;
+}
+
+.active.bluebg .tweet_header{
+    color: white;
+    background: #3566FF;
+}
+
+.active.greenbg .tweet_header{
+    color: white;
+    background: #2BBD1E;
 }
 
 .tweet_avatar {
 	width: 65px;
-	height: 120px;
+	height: 65px;
 	float: left;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -148,34 +183,51 @@ body {
 }
 
 .tweet_content_container {
-	width: 405px;
-	padding: 0px 15px;
+	width: 460px;
 	float: left;
 	vertical-align: top;
+    padding: 0px 20px 10px 20px;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
 }
+
+.tweet_header {
+    /*height: 65px;*/
+    padding: 5px 20px 15px 20px;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+.tweet_header span {
+    display: inline-block;
+}
+
 .tweet_user {
 	margin-top: 6px;
 }
 .tweet_user_name {
-	font-size: 13px;
-    color: rgba(0,0,0,0.2);
+	font-size: 19px;
+	font-weight: bold;
 }
 .active .tweet_user_name {
-	color: #dfdfdf;
 }
 
 .tweet_user_handle {
-	font-size: 14px;
-	margin-left: 10px;
-    color: rgba(0,0,0,0.2);
-	font-weight: bold;
+	font-size: 15px;
+    margin-top: 4px;
 }
-.active .tweet_user_handle {
-	color: white;
+.active .tweet_user_name {
+	color: black;
 }
+
+.tweet.active.redbg .tweet_user_name, .tweet.active.bluebg .tweet_user_name, .tweet.active.greenbg .tweet_user_name {
+    color: white;
+}
+    
 .tweet_content {
 	font-size: 17px;
-	padding-top: 3px;
+	padding-top: 10px;
+    letter-spacing: 0.08em;
 }
 
 .tweet_content a {
@@ -184,13 +236,44 @@ body {
 }
 
 .active .tweet_content a {
-	color: white;
+	color: black;
 	font-weight: bold;
 }
+
+/*
+.active.redbg a, .active.bluebg a, .active.greenbg a {
+    color: white;
+}
+*/
+
+.tweet_footer {
+    position: absolute;
+    top: 170px;
+    width: 500px;
+}
+
 .tweet_time {
 	font-size: 11px;
-	padding-top: 5px;
+	padding-top: 7px;
+    float: left;
 }
+
+.tweet_actions {
+    position: absolute;
+    right: 20px;
+    display: none;
+}
+
+.tweet_actions a {
+    padding-right: 5px;
+}
+
+/**
+Work in progress
+.active.tweet:hover .tweet_actions {
+    display: block;
+}
+*/
 
 .tweet_media {
 	width: 500px;

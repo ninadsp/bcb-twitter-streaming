@@ -317,17 +317,17 @@ function setCurrentSession() {
 	// we haven't yet started the day
 	if(current_slot_index <= 0) {
 		output.type = 'special';
-		output.string = "Barcamp Bangalore 13 begins at 08:00 AM on 2nd March 2013, hope to see you there!";
+		output.string = "Barcamp Bangalore Monsoon 2013 begins at 08:00 AM on 14th September 2013, hope to see you there!";
 	}
 	else if (current_slot_index >= 12) { // the day has ended
 		output.type = 'special';
-		output.string = "Barcamp Bangalore 13 is over. Thanks for coming by.";
+		output.string = "Barcamp Bangalore Monsoon 2013 is over. Thanks for coming by.";
 	}
 	else { // we are in some session
         if(typeof(schJSON.slots) === "undefined") {
             // Argh! We don't yet have a schedule! Fill up all the slots and generate it
             output.type = 'special';
-            output.string = 'Barcamp Bangalore 13 is go! Where is the schedule yo?';
+            output.string = 'Barcamp Bangalore Monsoon 2013 is go! Where is the schedule yo?';
         }
         else {
             output.type = schJSON.slots[current_slot_index-1].type;

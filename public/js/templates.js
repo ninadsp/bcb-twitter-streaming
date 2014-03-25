@@ -1,8 +1,8 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
 templates['schedule-fixed-slot'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [2,'>= 1.0.0-rc.3'];
-helpers = helpers || Handlebars.helpers; data = data || {};
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
@@ -33,8 +33,8 @@ function program3(depth0,data) {
   return buffer;
   });
 templates['schedule-normal-slot'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [2,'>= 1.0.0-rc.3'];
-helpers = helpers || Handlebars.helpers; data = data || {};
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
@@ -63,8 +63,8 @@ function program1(depth0,data) {
   return buffer;
   });
 templates['wall-session'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [2,'>= 1.0.0-rc.3'];
-helpers = helpers || Handlebars.helpers; data = data || {};
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
@@ -80,8 +80,8 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   return buffer;
   });
 templates['wall-tweet'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [2,'>= 1.0.0-rc.3'];
-helpers = helpers || Handlebars.helpers; data = data || {};
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
 
 function program1(depth0,data) {
@@ -102,6 +102,10 @@ function program3(depth0,data) {
   }
 
   buffer += "<div class=\"step tweet ";
+  if (stack1 = helpers.random_colour) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.random_colour; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + " ";
   stack1 = helpers['if'].call(depth0, depth0.media, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\" id=\"tweet_";
@@ -124,19 +128,19 @@ function program3(depth0,data) {
   if (stack1 = helpers.scale) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.scale; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\">\n	<div class=\"tweet_avatar\" style=\"background-image: url(";
+    + "\">\n    <div class=\"tweet_header\">\n	    <span class=\"tweet_avatar\" style=\"background-image: url(";
   if (stack1 = helpers.profile_image) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.profile_image; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + ");\">&nbsp;</div>\n	<div class=\"tweet_content_container\">\n		<div class=\"tweet_user\">\n			<span class=\"tweet_user_name\">";
+    + ");\">&nbsp;</span>\n		<span class=\"tweet_user\">\n			<div class=\"tweet_user_name\">";
   if (stack1 = helpers.user_name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.user_name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span>\n			<span class=\"tweet_user_handle\">";
+    + "</div>\n			<div class=\"tweet_user_handle\">@";
   if (stack1 = helpers.user_screen_name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.user_screen_name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span>\n		</div>\n		<div class=\"tweet_content\">";
+    + "</div>\n		</span>\n     </div>\n	<div class=\"tweet_content_container\">\n		<div class=\"tweet_content\">";
   if (stack1 = helpers.tweet_text) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.tweet_text; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -147,7 +151,8 @@ function program3(depth0,data) {
     + "</div>\n	</div>\n	";
   stack1 = helpers['if'].call(depth0, depth0.media, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</div>";
+  buffer += "\n    "
+    + "\n</div>\n";
   return buffer;
   });
 })();

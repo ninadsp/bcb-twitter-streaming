@@ -44,6 +44,8 @@ $(document).ready(function() {
 
 			var slots = data.slots;
 
+            var num_tracks = tracks.length;
+
 			$("#schedule_table").remove();
 			$("#message").empty().hide();
 			var table_html = $("<table id='schedule_table' cellpadding='0' cellspacing='0'></table>");
@@ -66,7 +68,7 @@ $(document).ready(function() {
 					}
 
 					slot_context.name = slot.name;
-					if(slot.id == 7) {
+					if("Techlash" == slot.name) {
 						slot_context.techlash = true;
 					}
 					else {
@@ -84,12 +86,24 @@ $(document).ready(function() {
 					else {
 						slot_context.time_string = slot.time;
 					}
+                    current_session_counter = 0;
 					$(slot.sessions).each(function(idx, session) {
+
+                        while(current_session_counter < session.track) {
+                            slot_context.sessions.push({ title: "", id: 0 });
+                            current_session_counter += 1;
+                        }
+
 						var title = session.title;
-						if(title.length > 56)
-							title = title.slice(0, 53) + '&hellip;'
+						if(title.length > 50)
+							title = title.slice(0, 47) + '&hellip;'
 						slot_context.sessions.push({title: title, id: session.id});
+                        current_session_counter += 1;
 					});
+                    while(current_session_counter < num_tracks) {
+                        slot_context.sessions.push({ title: "", id: 0 });
+                        current_session_counter += 1;
+                    }
 					var slot_tr = normal_slot_template(slot_context);
 				}
 				table_html.find('tbody').append(slot_tr);

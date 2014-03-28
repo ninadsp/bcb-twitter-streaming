@@ -117,15 +117,32 @@ $(document).ready(function() {
 			$("#current_session_wrapper").html('<div class="large_text">'+d.ata.string+'</div>');
 		}
 		else if(d.ata.type == "session" ){
+            var num_tracks = d.ata.tracks.length;
+            var current_track_counter = 0;
 			var html_to_insert = '<div class="current_session_time"><div class="current_session_location">Now:</div> <div>'+d.ata.slot.time+'</div></div>';
 			$(d.ata.slot.sessions).each(function(idx, session) {
+
+                while(current_track_counter < session.track) {
+                    var session_context = {location: d.ata.tracks[current_track_counter], title: ""};
+                    current_track_counter += 1;
+                    html_to_insert += session_template(session_context);
+                }
+
 				var title = session.title;
 				if(title.length > 56) {
 					title = title.slice(0,53) + "&hellip;";
 				}
 				var session_context = {location: session.location, title: title};
+                current_track_counter += 1;
 				html_to_insert += session_template(session_context);
 			});
+
+            while(current_track_counter < num_tracks) {
+                var session_context = {location: d.ata.tracks[current_track_counter], title: ""};
+                current_track_counter += 1;
+                html_to_insert += session_template(session_context);
+            }
+
 			$("#current_session_wrapper").html(html_to_insert);
 		}
 		else if(d.ata.type == "fixed" ) {

@@ -1,6 +1,5 @@
 body {
-    background-color: #4d4926;
-    background-image: url(/images/background_pattern.jpg);
+    background-color: #7c704f;
     width: 1024px;
     height: 768px;
     margin: 0 auto;
@@ -79,7 +78,7 @@ body {
 	font-size: 20px;
 	padding: 12px;
 	border-radius: 10px;
-	background-color: #FED904;
+	background-color: #e7d7ad;
     color: black;
 	word-wrap: break-word;
 }

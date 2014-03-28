@@ -1,6 +1,5 @@
 body {
 	background-color: #4d4926;
-    background-image: url(/images/background_pattern.jpg);
 	/*background-image: -webkit-linear-gradient(top, #666, #222);
 	background-image: -moz-linear-gradient(top, #666, #222);
 	background-image: -o-linear-gradient(top, #666, #222);*/
@@ -51,7 +50,7 @@ body {
 
 #container .head {
 	font-size: 1.2em;
-	height: 9%;
+	height: 7%;
 	text-align: center;
 }
 
@@ -87,7 +86,7 @@ a {
 }
 
 .session_slot {
-	height: 11%;
+	height: 9%;
 }
 
 .fixed_slot .col {

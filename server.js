@@ -50,7 +50,9 @@ var config = function() {
 			host	: json.schedule.host
 			, port	: json.schedule.port
 			, path	: json.schedule.path
-			// , time_slots: json.schedule.time_slots
+			, time_slots: [] 
+            , event_date : json.schedule.event_date
+            , tz    : json.schedule.tz
 		}
 	}
 
@@ -115,7 +117,7 @@ app.get('/', function(req, res) {
 	res.sendfile(__dirname + '/public/wall.html');
 })
 
-server.listen(8080);
+server.listen(process.env.VCAP_APP_PORT || 3000);
 console.log(' | Server listening');
 
 /**
@@ -198,8 +200,13 @@ var schJSON = {},
 function readJSON() {
 	try{
 		console.log(' | Reading JSON');
-		fs.readFile(__dirname + '/web.json', 'utf8', function(error, data) {
+		fs.readFile(__dirname + '/android_bcb15.json', 'utf8', function(error, data) {
 			schJSON = JSON.parse(data);
+            config.schedule.time_slots = []
+            schJSON.slots.forEach(function(slot){
+                config.schedule.time_slots.push( config.schedule.event_date + " " + slot.startTime + " " + config.schedule.tz );
+            }); 
+            //console.log(config.schedule.time_slots);
 		});
 		fs.readFile(__dirname + '/updates.json', 'utf8', function(err, data) {
 			updJSON = JSON.parse(data);
@@ -227,7 +234,7 @@ function updateJSON(req, res) {
 		method: 'GET'
 	}, function(resp){
 			if(resp.statusCode == 200 ) {
-				var outfile = fs.createWriteStream(__dirname+'/web.json');
+				var outfile = fs.createWriteStream(__dirname+'/android_bcb15.json');
 				var buff = '';
 
 				resp.setEncoding('utf8');
@@ -305,9 +312,16 @@ function setCurrentSession() {
 	var now = moment();
 
 	var current_slot_index = 0;
+    var slots_length = config.schedule.time_slots.length
+    if( 0 == slots_length )
+    {
+        console.log(" # time slots not available yet");
+        return;
+    }
+
 	while(now.isAfter(config.schedule.time_slots[current_slot_index], 'minute')) {
 		current_slot_index += 1;
-		if(current_slot_index >= 12) {
+		if(current_slot_index >= slots_length) {
 			break;
 		}
 	}
@@ -317,17 +331,17 @@ function setCurrentSession() {
 	// we haven't yet started the day
 	if(current_slot_index <= 0) {
 		output.type = 'special';
-		output.string = "Barcamp Bangalore Monsoon 2013 begins at 08:00 AM on 14th September 2013, hope to see you there!";
+		output.string = "Barcamp Bangalore Spring 2014 begins at 08:00 AM on 29th March 2014, hope to see you there!";
 	}
-	else if (current_slot_index >= 12) { // the day has ended
+	else if (current_slot_index >= slots_length) { // the day has ended
 		output.type = 'special';
-		output.string = "Barcamp Bangalore Monsoon 2013 is over. Thanks for coming by.";
+		output.string = "Barcamp Bangalore Spring 2014 is over. Thanks for coming by.";
 	}
 	else { // we are in some session
         if(typeof(schJSON.slots) === "undefined") {
             // Argh! We don't yet have a schedule! Fill up all the slots and generate it
             output.type = 'special';
-            output.string = 'Barcamp Bangalore Monsoon 2013 is go! Where is the schedule yo?';
+            output.string = 'Barcamp Bangalore Spring 2014 is go! Where is the schedule yo?';
         }
         else {
             output.type = schJSON.slots[current_slot_index-1].type;

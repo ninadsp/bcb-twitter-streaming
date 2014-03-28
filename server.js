@@ -37,27 +37,27 @@ var config = function() {
 
 	if(typeof(json.twitter) !== undefined) {
 		config.twitter = { 
-			consumer_key		: json.twitter.consumer_key,
-			consumer_secret		: json.twitter.consumer_secret,
-			access_token_key	: json.twitter.access_token_key,
-			access_token_secret	: json.twitter.access_token_secret,
-			track				: json.twitter.track
+			consumer_key		    : json.twitter.consumer_key
+			, consumer_secret	    : json.twitter.consumer_secret
+			, access_token_key	    : json.twitter.access_token_key
+			, access_token_secret	: json.twitter.access_token_secret
+			, track				    : json.twitter.track
 		}
 	};
 
 	if(typeof(json.schedule) !== undefined) {
 		config.schedule = {
-			host	: json.schedule.host,
-			port	: json.schedule.port,
-			path	: json.schedule.path,
-			time_slots: json.schedule.time_slots
+			host	: json.schedule.host
+			, port	: json.schedule.port
+			, path	: json.schedule.path
+			// , time_slots: json.schedule.time_slots
 		}
 	}
 
 	if(typeof(json.admin) !== undefined) {
 		config.admin = {
-			user : json.admin.user,
-			pass : json.admin.pass
+			user : json.admin.user
+			, pass : json.admin.pass
 		}
 	}
 

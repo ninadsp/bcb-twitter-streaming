@@ -26,8 +26,8 @@ $(document).ready(function() {
 		
 	}
 
-	var tweet_template_source = $("#tweet_template").html(),
-		session_template_source = $("#session_template").html();
+	// var tweet_template_source = $("#tweet_template").html(),
+	// 	session_template_source = $("#session_template").html();
 
 	var tweet_template = Handlebars.templates['wall-tweet'];
 	var session_template = Handlebars.templates['wall-session'];

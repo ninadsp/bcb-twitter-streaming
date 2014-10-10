@@ -1,5 +1,5 @@
 body {
-    background-color: #7c704f;
+    background-color: #771c0b;
     width: 1024px;
     height: 768px;
     margin: 0 auto;
@@ -78,7 +78,7 @@ body {
 	font-size: 20px;
 	padding: 12px;
 	border-radius: 10px;
-	background-color: #e7d7ad;
+	background-color: #EBE6C7;
     color: black;
 	word-wrap: break-word;
 }
@@ -91,7 +91,7 @@ body {
 #current_session_wrapper {
 	width: 1024px;
 	height: 118px;
-	background-color: white;
+	background-color: #EBE6C7;
 	border-radius: 9px;
     color: black;
 }

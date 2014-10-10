@@ -18,3 +18,5 @@ config.json
 updates.json
 web.json
 manifest.yml
+bcb-twitter-streaming.sublime-project
+bcb-twitter-streaming.sublime-workspace

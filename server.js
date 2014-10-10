@@ -4,23 +4,20 @@
 
 var express = require('express'),
 	app = module.exports = express(),
-	http = require('http'),
-	server = http.createServer(app),
+	bodyParser = require('body-parser'),
+	logger = require('morgan'),
+	errorHandler = require('errorhandler'),
+	basicAuth = require('basic-auth'),
 	fs = require('fs');
 
-app.configure(function() {
-	app.use(express.bodyParser());
-	app.use(express.static(__dirname + '/public'));
-	app.use(express.logger(':remote-addr - :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));	
-});
+app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname + '/public'));
+app.set('port', process.env.PORT || 3000);
 
-app.configure('development', function(){
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-});
-
-app.configure('production', function(){
-    app.use(express.errorHandler()); 
-});
+if('development' == app.get('env')) {
+	app.use(errorHandler());
+}
 
 /**
 * Configure self
@@ -69,9 +66,25 @@ var config = function() {
 /**
 * Utils
 */
-var adminAuth = express.basicAuth( function(user, password) {
-	return ( user == config.admin.user && password == config.admin.pass) ? true : false;
-});
+var adminAuth = function (req, res, next ) {
+
+	function unauthorized(res) {
+		res.set('WWW-Authenticate', 'Basic realm=BCB Admin');
+		return res.send(401);
+	};
+	var user = basicAuth(req);
+
+	if ( !user || !user.name || !user.pass) {
+		return unauthorized(res);
+	};
+
+	if (user.name == config.admin.user && config.admin.pass ) {
+		return next();
+	}
+	else {
+		return unauthorized(res);
+	};
+}
 
 function strencode( data ) {
   return unescape( encodeURIComponent( JSON.stringify( data ) ) );
@@ -90,15 +103,15 @@ function strencode( data ) {
 */
 
 app.get('/schedule', function(req, res) {
-	res.sendfile(__dirname + '/public/schedule.html');
+	res.sendFile(__dirname + '/public/schedule.html');
 });
 
 app.get('/wall', function(req, res) {
-	res.sendfile(__dirname + '/public/wall.html');
+	res.sendFile(__dirname + '/public/wall.html');
 });
 
 app.get('/admin', adminAuth, function(req, res) {
-	res.sendfile(__dirname + '/public/admin.html');
+	res.sendFile(__dirname + '/public/admin.html');
 });
 
 app.get('/push', adminAuth, function(req, res) {
@@ -106,7 +119,7 @@ app.get('/push', adminAuth, function(req, res) {
 });
 
 app.get('/update', adminAuth, function(req, res) {
-	res.sendfile(__dirname + '/public/update.html');
+	res.sendFile(__dirname + '/public/update.html');
 });
 
 app.post('/update', adminAuth, function(req, res) {
@@ -114,11 +127,12 @@ app.post('/update', adminAuth, function(req, res) {
 });
 
 app.get('/', function(req, res) {
-	res.sendfile(__dirname + '/public/wall.html');
+	res.sendFile(__dirname + '/public/wall.html');
 })
 
-server.listen(process.env.VCAP_APP_PORT || 3000);
-console.log(' | Server listening');
+var server = app.listen(app.get('port'), function(){
+	console.log(' | Server listening on port ' + app.get('port'));
+})
 
 /**
 * Twitter functions
@@ -331,11 +345,11 @@ function setCurrentSession() {
 	// we haven't yet started the day
 	if(current_slot_index <= 0) {
 		output.type = 'special';
-		output.string = "Barcamp Bangalore Spring 2014 begins at 08:00 AM on 29th March 2014, hope to see you there!";
+		output.string = "Barcamp Bangalore Monsoon 2014 begins at 08:00 AM on 12th October 2014, hope to see you there!";
 	}
 	else if (current_slot_index >= slots_length) { // the day has ended
 		output.type = 'special';
-		output.string = "Barcamp Bangalore Spring 2014 is over. Thanks for coming by.";
+		output.string = "Barcamp Bangalore Monsoon 2014 is over. Thanks for coming by.";
 	}
 	else { // we are in some session
         if(typeof(schJSON.slots) === "undefined") {
@@ -359,23 +373,23 @@ function setCurrentSession() {
 * set up updates+twitter socket, populate initial updates
 * set up schedule socket, populate initial schedule
 */
-var	io = require('socket.io').listen(server),
+var	io = require('socket.io')(server),
  	totWallUsers = 0,
  	totScheduleUsers = 0;
 	
-io.configure(function() { 
-	io.enable('browser client minification');
-	io.enable('browser client etag');
-	io.enable('browser client gzip');
-	io.set('log level', 1); 
-	io.set('transports', [ 
-			'websocket',
-		//	'flashsocket',
-			'htmlfile',
-			'xhr-polling',
-			'jsonp-polling'
-	]);
-}); 
+// io.configure(function() { 
+// 	io.enable('browser client minification');
+// 	io.enable('browser client etag');
+// 	io.enable('browser client gzip');
+// 	io.set('log level', 1); 
+// 	io.set('transports', [ 
+// 			'websocket',
+// 		//	'flashsocket',
+// 			'htmlfile',
+// 			'xhr-polling',
+// 			'jsonp-polling'
+// 	]);
+// }); 
 
 var updates = io.of('/updates').on('connection', function(client) {
 	totWallUsers++;

@@ -1,158 +1,80 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-templates['schedule-fixed-slot'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  
-  return "\n		<img id=\"teklash_logo\" src=\"/images/teklash.png\" alt=\"Techlash\" />\n	";
-  }
-
-function program3(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n		";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\n	";
-  return buffer;
-  }
-
-  buffer += "<tr class=\"fixed_slot\">\n	<td class=\"col_0\">";
-  if (stack1 = helpers.time_string) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.time_string; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</td>\n	<td class=\"col\" colspan=\"6\">\n	";
-  stack1 = helpers['if'].call(depth0, depth0.techlash, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	</td>\n</tr>";
-  return buffer;
-  });
-templates['schedule-normal-slot'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n		<td class=\"col\"><a href=\"http://barcampbangalore.org/bcb/?p=";
-  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
+templates['schedule-fixed-slot'] = template({"1":function(depth0,helpers,partials,data) {
+  return "		<img id=\"teklash_logo\" src=\"./images/teklash.png\" alt=\"Techlash\" />\n";
+  },"3":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "		"
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + "\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<tr class=\"fixed_slot\">\n	<td class=\"col_0\">"
+    + escapeExpression(((helper = (helper = helpers.time_string || (depth0 != null ? depth0.time_string : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"time_string","hash":{},"data":data}) : helper)))
+    + "</td>\n	<td class=\"col\" colspan=\"6\">\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.techlash : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(3, data),"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "	</td>\n</tr>";
+},"useData":true});
+templates['schedule-normal-slot'] = template({"1":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "		<td class=\"col\"><a href=\"http://barcampbangalore.org/bcb/?p="
+    + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
     + "\" target=\"_blank\">";
-  if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</a></td>\n	";
-  return buffer;
-  }
-
-  buffer += "<tr class=\"session_slot\">\n	<td class=\"col_0\">";
-  if (stack1 = helpers.time_string) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.time_string; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</td>\n	";
-  stack1 = helpers.each.call(depth0, depth0.sessions, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</tr>";
-  return buffer;
-  });
-templates['wall-session'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
-
-
-  buffer += "<div class=\"current_session\">\n	<div class=\"current_session_location\">";
-  if (stack1 = helpers.location) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.location; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</div>\n	<div class=\"current_session_title\">";
-  if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
+  stack1 = ((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper));
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</a></td>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<tr class=\"session_slot\">\n	<td class=\"col_0\">"
+    + escapeExpression(((helper = (helper = helpers.time_string || (depth0 != null ? depth0.time_string : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"time_string","hash":{},"data":data}) : helper)))
+    + "</td>\n";
+  stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.sessions : depth0), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</tr>";
+},"useData":true});
+templates['wall-session'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "<div class=\"current_session\">\n	<div class=\"current_session_location\">"
+    + escapeExpression(((helper = (helper = helpers.location || (depth0 != null ? depth0.location : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"location","hash":{},"data":data}) : helper)))
+    + "</div>\n	<div class=\"current_session_title\">"
+    + escapeExpression(((helper = (helper = helpers.title || (depth0 != null ? depth0.title : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"title","hash":{},"data":data}) : helper)))
     + "</div>\n</div>";
-  return buffer;
-  });
-templates['wall-tweet'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  
+},"useData":true});
+templates['wall-tweet'] = template({"1":function(depth0,helpers,partials,data) {
   return " has_media ";
-  }
-
-function program3(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\n	<div class=\"clear\">&nbsp;</div>\n	<div class=\"tweet_media\">\n		<img src=\"";
-  if (stack1 = helpers.media_url) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.media_url; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\" />\n	</div>\n	";
-  return buffer;
-  }
-
-  buffer += "<div class=\"step tweet ";
-  if (stack1 = helpers.random_colour) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.random_colour; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
+  },"3":function(depth0,helpers,partials,data) {
+  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+  return "	<div class=\"clear\">&nbsp;</div>\n	<div class=\"tweet_media\">\n		<img src=\""
+    + escapeExpression(((helper = (helper = helpers.media_url || (depth0 != null ? depth0.media_url : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"media_url","hash":{},"data":data}) : helper)))
+    + "\" />\n	</div>\n";
+},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"step tweet "
+    + escapeExpression(((helper = (helper = helpers.random_colour || (depth0 != null ? depth0.random_colour : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"random_colour","hash":{},"data":data}) : helper)))
     + " ";
-  stack1 = helpers['if'].call(depth0, depth0.media, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\" id=\"tweet_";
-  if (stack1 = helpers.id_str) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.id_str; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\" data-x=\"";
-  if (stack1 = helpers['x']) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0['x']; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\" data-y=\"";
-  if (stack1 = helpers['y']) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0['y']; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\" data-z=\"";
-  if (stack1 = helpers['z']) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0['z']; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\" data-scale=\"";
-  if (stack1 = helpers.scale) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.scale; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\">\n    <div class=\"tweet_header\">\n	    <span class=\"tweet_avatar\" style=\"background-image: url(";
-  if (stack1 = helpers.profile_image) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.profile_image; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + ");\">&nbsp;</span>\n		<span class=\"tweet_user\">\n			<div class=\"tweet_user_name\">";
-  if (stack1 = helpers.user_name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.user_name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</div>\n			<div class=\"tweet_user_handle\">@";
-  if (stack1 = helpers.user_screen_name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.user_screen_name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.media : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "\" id=\"tweet_"
+    + escapeExpression(((helper = (helper = helpers.id_str || (depth0 != null ? depth0.id_str : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id_str","hash":{},"data":data}) : helper)))
+    + "\" data-x=\""
+    + escapeExpression(((helper = (helper = helpers.x || (depth0 != null ? depth0.x : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"x","hash":{},"data":data}) : helper)))
+    + "\" data-y=\""
+    + escapeExpression(((helper = (helper = helpers.y || (depth0 != null ? depth0.y : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"y","hash":{},"data":data}) : helper)))
+    + "\" data-z=\""
+    + escapeExpression(((helper = (helper = helpers.z || (depth0 != null ? depth0.z : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"z","hash":{},"data":data}) : helper)))
+    + "\" data-scale=\""
+    + escapeExpression(((helper = (helper = helpers.scale || (depth0 != null ? depth0.scale : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"scale","hash":{},"data":data}) : helper)))
+    + "\">\n    <div class=\"tweet_header\">\n	    <span class=\"tweet_avatar\" style=\"background-image: url("
+    + escapeExpression(((helper = (helper = helpers.profile_image || (depth0 != null ? depth0.profile_image : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"profile_image","hash":{},"data":data}) : helper)))
+    + ");\">&nbsp;</span>\n		<span class=\"tweet_user\">\n			<div class=\"tweet_user_name\">"
+    + escapeExpression(((helper = (helper = helpers.user_name || (depth0 != null ? depth0.user_name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"user_name","hash":{},"data":data}) : helper)))
+    + "</div>\n			<div class=\"tweet_user_handle\">@"
+    + escapeExpression(((helper = (helper = helpers.user_screen_name || (depth0 != null ? depth0.user_screen_name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"user_screen_name","hash":{},"data":data}) : helper)))
     + "</div>\n		</span>\n     </div>\n	<div class=\"tweet_content_container\">\n		<div class=\"tweet_content\">";
-  if (stack1 = helpers.tweet_text) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.tweet_text; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</div>\n		<div class=\"tweet_time\">";
-  if (stack1 = helpers.tweet_time) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.tweet_time; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</div>\n	</div>\n	";
-  stack1 = helpers['if'].call(depth0, depth0.media, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    "
-    + "\n</div>\n";
-  return buffer;
-  });
+  stack1 = ((helper = (helper = helpers.tweet_text || (depth0 != null ? depth0.tweet_text : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"tweet_text","hash":{},"data":data}) : helper));
+  if (stack1 != null) { buffer += stack1; }
+  buffer += "</div>\n		<div class=\"tweet_time\">"
+    + escapeExpression(((helper = (helper = helpers.tweet_time || (depth0 != null ? depth0.tweet_time : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"tweet_time","hash":{},"data":data}) : helper)))
+    + "</div>\n	</div>\n";
+  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.media : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+  if (stack1 != null) { buffer += stack1; }
+  return buffer + "</div>\n";
+},"useData":true});
 })();

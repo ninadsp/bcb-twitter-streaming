@@ -4,6 +4,7 @@
 
 var express = require('express'),
 	app = module.exports = express(),
+	http = require('http'),
 	bodyParser = require('body-parser'),
 	logger = require('morgan'),
 	errorHandler = require('errorhandler'),
